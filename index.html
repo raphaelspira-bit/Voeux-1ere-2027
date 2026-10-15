@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vœux de 1ère · EFI</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/config.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="eyebrow" id="etab">Lycée</span>
+    <h1>Vœux d'orientation pour la classe de 1ère</h1>
+    <p class="lede" id="lede">Fiche à remplir par la famille de chaque élève de seconde générale. Elle aide l'établissement à préparer l'ouverture des groupes de spécialités et l'emploi du temps.</p>
+    <div class="facts"><span><b>3</b> spécialités en 1ère, 4 h chacune par semaine</span><span><b>2</b> d'entre elles conservées en Terminale</span></div>
+  </header>
+
+  <div id="status" class="notice" hidden></div>
+
+  <div id="recap" class="recap" hidden></div>
+
+  <form id="form" novalidate>
+    <fieldset>
+      <legend><span class="step">Étape 1 sur 4</span><h2>L'élève</h2></legend>
+      <div class="grid2">
+        <label class="f">Nom de l'élève<input type="text" id="nom" required></label>
+        <label class="f">Prénom de l'élève<input type="text" id="prenom" required></label>
+        <label class="f">Classe de seconde<select id="classe" required></select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">Étape 2 sur 4</span><h2>Enseignements de spécialité</h2>
+        <span class="hint">Choisissez exactement trois spécialités. <span class="counter" id="specCount">0 / 3</span></span></legend>
+      <div class="chips" id="specs"></div>
+      <details id="replisBox">
+        <summary class="hint" style="cursor:pointer">Ajouter un choix de repli (facultatif)</summary>
+        <p class="hint" style="margin:8px 0">Si la combinaison principale ne pouvait pas être ouverte, quelle autre combinaison de trois spécialités envisagez-vous ? <span class="counter" id="repliCount">0 / 3</span></p>
+        <div class="chips" id="replis"></div>
+      </details>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">Étape 3 sur 4</span><h2>Option et section européenne</h2></legend>
+      <h3>Enseignement optionnel artistique</h3>
+      <p class="hint" id="optHint">Facultatif.</p>
+      <div class="chips" id="options"></div>
+      <h3 style="margin-top:6px">Section européenne anglais</h3>
+      <p class="hint">Souhaitez-vous que l'élève suive la section européenne (parcours anglais) en 1ère ?</p>
+      <div class="chips" id="euro"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">Étape 4 sur 4</span><h2>Responsable légal</h2></legend>
+      <div class="grid2">
+        <label class="f">Nom et prénom<input type="text" id="respNom" autocomplete="name" required></label>
+        <label class="f">Lien avec l'élève<select id="respLien" required><option value="">Choisir…</option><option>Mère</option><option>Père</option><option>Tuteur ou tutrice légal(e)</option></select></label>
+        <label class="f">Téléphone<input type="tel" id="respTel" autocomplete="tel"></label>
+        <label class="f">Adresse e-mail<input type="email" id="respMail" autocomplete="email"></label>
+      </div>
+      <label class="f">Commentaire pour l'équipe de direction (facultatif)<textarea id="commentaire" maxlength="800"></textarea></label>
+      <label class="hp" aria-hidden="true">Site web<input type="text" id="site" tabindex="-1" autocomplete="off"></label>
+      <label class="check"><input type="checkbox" id="attest" required><span>J'atteste être responsable légal de l'élève. Ces vœux sont indicatifs ; la décision d'orientation est arrêtée en conseil de classe du troisième trimestre.</span></label>
+    </fieldset>
+
+    <div class="actions">
+      <button class="btn" type="submit" id="submitBtn">Envoyer les vœux</button>
+      <button class="btn ghost" type="button" id="cancelEdit" hidden>Annuler</button>
+      <span class="err" id="formErr" role="alert"></span>
+    </div>
+  </form>
+</div>
+<script src="assets/form.js"></script>
+</body>
+</html>

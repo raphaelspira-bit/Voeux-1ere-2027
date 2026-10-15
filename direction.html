@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Suivi des vœux de 1ère · EFI</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/config.js"></script>
+</head>
+<body>
+<div class="wrap wide">
+  <header>
+    <span class="eyebrow">Espace direction</span>
+    <h1>Suivi des vœux de 1ère</h1>
+  </header>
+
+  <div id="status" class="notice" hidden></div>
+
+  <form id="login" class="login">
+    <label class="f">Mot de passe direction<input type="password" id="key" autocomplete="current-password" required></label>
+    <div class="actions"><button class="btn" type="submit">Afficher les réponses</button></div>
+    <p class="hint">Le mot de passe est défini dans le projet Apps Script (Propriétés du script, ADMIN_KEY).</p>
+  </form>
+
+  <div id="dash" hidden style="display:flex;flex-direction:column;gap:28px"></div>
+</div>
+<script src="assets/direction.js"></script>
+</body>
+</html>
