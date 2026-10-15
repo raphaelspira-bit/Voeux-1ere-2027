@@ -65,6 +65,28 @@
     });
     return "﻿" + [head.map(q).join(";"), ...lines].join("\r\n");
   }
+  // Une ligne par combinaison : effectif total, part, détail par classe et liste des élèves.
+  function csvCombinaisons(list, classNames) {
+    const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const groups = new Map();
+    list.forEach(r => {
+      const k = trip(r.specialites);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(r);
+    });
+    const total = list.length;
+    const head = ["Combinaison", "Spécialité 1", "Spécialité 2", "Spécialité 3", "Nombre d'élèves", "Part (%)", ...classNames, "Élèves"];
+    const lines = [...groups.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], "fr")).map(([k, rs]) => {
+      const s = k.split(" · ");
+      const eleves = rs.slice().sort((a, b) => String(a.nom).localeCompare(String(b.nom), "fr"))
+        .map(r => `${r.nom} ${r.prenom} (${r.classe})`).join(", ");
+      const pct = total ? (rs.length / total * 100).toFixed(1).replace(".", ",") : "0";
+      return [k, s[0], s[1], s[2], rs.length, pct, ...classNames.map(c => rs.filter(r => r.classe === c).length), eleves].map(q).join(";");
+    });
+    lines.push([ "Total", "", "", "", total, total ? "100" : "0", ...classNames.map(c => list.filter(r => r.classe === c).length), ""].map(q).join(";"));
+    return "﻿" + [head.map(q).join(";"), ...lines].join("\r\n");
+  }
+
   function download(text, name) {
     const blob = new Blob([text], { type: "text/csv;charset=utf-8" });
     const a = document.createElement("a");
@@ -111,7 +133,7 @@
 
     <div class="cols">
       <div class="panel"><h3>Demandes par spécialité</h3>${bars(specE, n)}</div>
-      <div class="panel"><h3>Combinaisons demandées</h3>${n ? `<div class="tablebox"><table><thead><tr><th>Combinaison</th><th class="num">Élèves</th></tr></thead><tbody>${trips.map(([k, c]) => `<tr><td>${esc(k)}</td><td class="num">${c}</td></tr>`).join("")}</tbody></table></div>` : `<p class="empty">Aucune réponse pour l'instant.</p>`}</div>
+      <div class="panel"><div class="toolbar"><h3>Combinaisons demandées</h3>${n ? `<button class="btn small ghost" id="csvCombi">Exporter les combinaisons</button>` : ""}</div>${n ? `<div class="tablebox"><table><thead><tr><th>Combinaison</th><th class="num">Élèves</th></tr></thead><tbody>${trips.map(([k, c]) => `<tr><td>${esc(k)}</td><td class="num">${c}</td></tr>`).join("")}</tbody></table></div>` : `<p class="empty">Aucune réponse pour l'instant.</p>`}</div>
       <div class="panel"><h3>Option artistique</h3>${bars(optE, n)}</div>
       <div class="panel"><h3>Section européenne</h3>${bars(euroE, n)}</div>
     </div>
@@ -131,6 +153,9 @@
 
     $("fClass").onchange = e => { filter = e.target.value; render(); };
     $("reload").onclick = load;
+    if ($("csvCombi")) $("csvCombi").onclick = () => download(
+      csvCombinaisons(list, filter ? [filter] : names),
+      "combinaisons-specialites" + (filter ? "-" + filter.replace(/\W+/g, "-") : "") + ".csv");
     $("csvBtn").onclick = () => download(csv(list), "voeux-1ere" + (filter ? "-" + filter.replace(/\W+/g, "-") : "") + ".csv");
   }
 
